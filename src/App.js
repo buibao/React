@@ -6,9 +6,12 @@ import Container1 from './containers/container1';
 import CounterRedux from './containers/CounterRedux';
 import CounterRedux2 from './containers/CounterRedux2';
 import TableSagaRedux from './containers/TableSagaRedux';
+import { Container  } from 'semantic-ui-react';
 import Table from "./components/table";
 import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Route, Link, NavLink, Switch, Redirect } from 'react-router-dom';
+import EventDashboard from './components/event/EventDashboard/EventDashboard';
+import NavBar from './components/nav/NavBar/NavBar';
 function ChildComponent({ match }) {
   return (
     <div className='m-5'>
@@ -78,6 +81,9 @@ class App extends Component {
     <li className="nav-item">
     <NavLink className="nav-link" to="/TableSagaRedux">TableSagaRedux</NavLink>
     </li>
+    <li className="nav-item">
+    <NavLink className="nav-link" to="/EventDashBoard">EventDashBoard</NavLink>
+    </li>
   </ul>
 </nav>
     </>
@@ -93,6 +99,7 @@ class App extends Component {
     <Route path="/CounterRedux1"   render={()=>{return (<CounterRedux/>)}}/>
     <Route path="/CounterRedux2"   render={()=>{return (<CounterRedux2/>)}}/>
     <Route path="/TableSagaRedux"   render={()=>{return (<TableSagaRedux/>)}}/>
+    <Route path="/EventDashBoard"   render={()=>{return (<><NavBar/><Container className="main"><EventDashboard/></Container></>)}}/>
     <Route component={NotFound} />
     </Switch>
     </Router>

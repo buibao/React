@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import {Provider} from 'react-redux';
+import 'semantic-ui-css/semantic.min.css';
 import store from './store';
 import './firebase/firebase';
 
