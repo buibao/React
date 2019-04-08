@@ -54,26 +54,22 @@ export const FETCHED_DATA = {
 export const createEvent = (event) =>{
     return {
         type: ACTION_TYPES.CREATE_EVENT,
-        payload:{
-            event
-        }
+        payload: event
+        
     }
 }
 
 export const updateEvent = (event) =>{
     return {
         type: ACTION_TYPES.UPDATE_EVENT,
-        payload:{
-            event
-        }
+        payload: event
+        
     }
 }
 
 export const  deleteEvent = (eventId) =>{
     return {
         type: ACTION_TYPES.DELETE_EVENT,
-        payload:{
-            eventId
-        }
+        payload: eventId
     }
 }
