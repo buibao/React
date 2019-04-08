@@ -11,7 +11,11 @@ import Table from "./components/table";
 import NotFound from "./components/NotFound";
 import { BrowserRouter as Router, Route, Link, NavLink, Switch, Redirect } from 'react-router-dom';
 import EventDashboard from './components/event/EventDashboard/EventDashboard';
+import EventDetailedPage from './components/event/EventDetailed/EventDetailedPage';
 import NavBar from './components/nav/NavBar/NavBar';
+import HomePage from './components/home/HomePage';
+import PeopleDashboard from './components/user/PeopleDashboard/PeopleDashboard';
+import EventForm from './components/event/EventForm/EventForm';
 function ChildComponent({ match }) {
   return (
     <div className='m-5'>
@@ -54,8 +58,11 @@ class App extends Component {
       <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
         <ul className="navbar-nav">
         <li className="nav-item">
-    <NavLink className="nav-link" to="/">Counter |</NavLink>
+    <NavLink className="nav-link" to="/">HomePage |</NavLink>
            </li>
+           <li className="nav-item">
+    <NavLink className="nav-link" to="/Counter">Counter |</NavLink>
+    </li>
            <li className="nav-item">
     <NavLink className="nav-link" to="/Counter2">Counter2 |</NavLink>
     </li>
@@ -81,15 +88,11 @@ class App extends Component {
     <li className="nav-item">
     <NavLink className="nav-link" to="/TableSagaRedux">TableSagaRedux</NavLink>
     </li>
-    <li className="nav-item">
-    <NavLink className="nav-link" to="/EventDashBoard">EventDashBoard</NavLink>
-    </li>
   </ul>
 </nav>
     </>
     <Switch>
     {/* <Route path="/" exact  render={()=>{return (<button onClick={()=>auth.login()}>Login</button>)}}/> */}
-    <Route path="/" exact component={Counter} />
     <Route path="/Nested" component={ChildRoute} />
     <Route path="/Counter"   render={()=>{return (<Counter/>)}}/>
     <Route path="/ReduxDemo"   render={()=>{return (<Container1/>)}}/>
@@ -99,9 +102,25 @@ class App extends Component {
     <Route path="/CounterRedux1"   render={()=>{return (<CounterRedux/>)}}/>
     <Route path="/CounterRedux2"   render={()=>{return (<CounterRedux2/>)}}/>
     <Route path="/TableSagaRedux"   render={()=>{return (<TableSagaRedux/>)}}/>
-    <Route path="/EventDashBoard"   render={()=>{return (<><NavBar/><Container className="main"><EventDashboard/></Container></>)}}/>
+    <Route path="/"  exact component={HomePage}/>
+    <Route path="/(.+)"
+    render ={()=>(
+      <div>
+      <NavBar/>
+      <Container className="main">
+      <Switch>
+      <Route path="/events"  component={EventDashboard} />
+      <Route path="/event/:id"  component={EventDetailedPage} />
+      <Route path="/people"  component={PeopleDashboard} />
+      <Route path="/createEvent"  component={EventForm} />
+      </Switch>
+      </Container>
+      </div>
+    )}
+    />
     <Route component={NotFound} />
     </Switch>
+   
     </Router>
     );
   }

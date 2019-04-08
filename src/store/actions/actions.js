@@ -50,3 +50,30 @@ export const requestDataError = () =>{
 export const FETCHED_DATA = {
     type: ACTION_TYPES.FETCHED_DATA
 }
+//
+export const createEvent = (event) =>{
+    return {
+        type: ACTION_TYPES.CREATE_EVENT,
+        payload:{
+            event
+        }
+    }
+}
+
+export const updateEvent = (event) =>{
+    return {
+        type: ACTION_TYPES.UPDATE_EVENT,
+        payload:{
+            event
+        }
+    }
+}
+
+export const  deleteEvent = (eventId) =>{
+    return {
+        type: ACTION_TYPES.DELETE_EVENT,
+        payload:{
+            eventId
+        }
+    }
+}
