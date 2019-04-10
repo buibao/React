@@ -1,37 +1,27 @@
 import React, { Component } from 'react'
 import { Form,Button,Segment } from 'semantic-ui-react'
-const emptyEvent ={
-  title:'',
-  date:'',
-  city:'',
-  venue:'',
-  hostedBy:''
-}
+import {connect} from 'react-redux'
+import * as ACTIONS from './../../../store//actions/actions';
+import cuid from 'cuid';
 class EventForm extends Component {
   state={
-    event: emptyEvent
-  }
-  componentDidMount(){
-    if(this.props.selectedEvent != null){
-this.setState({
-  event: this.props.selectedEvent
-})
-    }
-  }
-  componentWillReceiveProps(nextProps){
-      if(nextProps.selectedEvent !== this.props.selectedEvent){
-        this.setState({
-         event: nextProps.selectedEvent || emptyEvent
-          })
-      }
+    event: Object.assign({}, this.props.emptyEvent)
   }
 
   onFormSubmit =(evt) =>{
     evt.preventDefault();
-    if(this.props.selectedEvent){
-        this.props.updateEvent(this.state.event)
+    if(this.state.event.id){
+        this.props.update(this.state.event)
+        this.props.history.goBack();
     }else{
-      this.props.createEvent(this.state.event)
+      const newEvent = {
+        ...this.state.event,
+        id: cuid(),
+        hostPhotoURL:'https://randomuser.me/api/portraits/men/22.jpg',
+
+      }
+      this.props.create(newEvent)
+      this.props.history.push('/events')
     }
     
   }
@@ -44,7 +34,7 @@ this.setState({
     })
   }
   render() {
-    const {handleCancel} = this.props;
+    // const {handleCancel} = this.props;
     const {event} = this.state;
     return (
           <Segment>
@@ -72,10 +62,31 @@ this.setState({
               <Button positive type="submit">
                 Submit
               </Button>
-              <Button type="button" onClick={handleCancel}>Cancel</Button>
+              <Button type="button" onClick={this.props.history.goBack}>Cancel</Button>
             </Form>
           </Segment>
     )
   }
 }
-export default EventForm
+
+function mapStateToProps(state, ownProps){
+  const eventId = ownProps.match.params.id;
+  let emptyEvent ={
+    title:'',
+    date:'',
+    city:'',
+    venue:'',
+    hostedBy:''
+  }
+      if(eventId && state.eventsReducer.length > 0){
+              emptyEvent = state.eventsReducer.filter(event=>event.id === eventId)[0]
+        }
+  return {emptyEvent};
+  }
+  function mapDispatchToProps(dispatch){
+    return{
+        update: (updateevent)=>dispatch(ACTIONS.updateEvent(updateevent)),
+        create: (createevent)=>dispatch(ACTIONS.createEvent(createevent)),
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(EventForm)
