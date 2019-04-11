@@ -11,6 +11,6 @@ const rootReducer = combineReducers({
     counter: Counter,
     tabledata: TableDataReducer,
     eventsReducer: EventReducer,
-    formReducer: FormReducer
+    form: FormReducer
 })
 export default rootReducer;
