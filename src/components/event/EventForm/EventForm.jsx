@@ -3,11 +3,13 @@ import { Form,Button,Segment, Grid, Header } from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as ACTIONS from './../../../store//actions/actions';
 import cuid from 'cuid';
+import moment from 'moment'
 import {composeValidators,combineValidators,isRequired, hasLengthGreaterThan} from 'revalidate'
 import {reduxForm, Field} from 'redux-form'
 import TextInput from '../../../utils/Form/TextInput'
 import TextArea from '../../../utils/Form/TextArea'
 import SelectInput from '../../../utils/Form/SelectInput'
+import DateInput from '../../../utils/Form/DateInput'
 
 
 const category = [
@@ -27,13 +29,13 @@ const validate = combineValidators({
     hasLengthGreaterThan(4)({message: 'Description needs to be at least 5 character'})
   )(),
   city: isRequired('city'),
-  venue: isRequired('venue')
+  venue: isRequired('venue'),
+  date: isRequired('date')
 
 })
 class EventForm extends Component {
-  
   onFormSubmit = values =>{
-  
+    values.date = moment(values.date).format()
     if(this.props.initialValues.id){
         this.props.update(values)
         this.props.history.goBack();
@@ -49,7 +51,6 @@ class EventForm extends Component {
     }
     
   }
-  
   render() {
     const {invalid, submitting, pristine} = this.props;
     return (
@@ -63,7 +64,7 @@ class EventForm extends Component {
                 name='category' 
                 type='text' 
                 options={category}
-                multiple={true}
+             //   multiple={true}
                 component={SelectInput} 
                 placeholder="What is your event about"/>
                 <Field 
@@ -75,8 +76,14 @@ class EventForm extends Component {
                 <Header sub color='teal' content='Event Location Details'/>
                 <Field name='city' type='text' component={TextInput} placeholder="Event City"/>
                 <Field name='venue' type='text' component={TextInput} placeholder="Event Venue"/>
-                <Field name='date' type='date' component={TextInput} placeholder="Event Date"/>
-              <Button disabled={invalid || submitting || pristine} positive type="submit">
+                <Field
+                name="date"
+                type="text"
+                component={DateInput}
+                dateFormat='YYYY-MM-DD HH:mm'
+                timeFormat='HH:mm'
+                showTimeSelect
+                placeholder="Date and time of event"/>            <Button disabled={invalid || submitting || pristine} positive type="submit">
                 Submit
               </Button>
               <Button type="button" onClick={this.props.history.goBack}>Cancel</Button>
